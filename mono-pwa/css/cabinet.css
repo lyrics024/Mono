@@ -1,0 +1,301 @@
+/* ===== Cabinet View (Shelf-based layout) ===== */
+.cabinet-view {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(139, 105, 20, 0.08) 0%, transparent 60%),
+    var(--surface-warm);
+  padding: var(--space-md) 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Single Shelf Row ===== */
+.shelf-section {
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+
+/* Shelf header — category name */
+.shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-md) var(--space-xs);
+}
+
+.shelf-label {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  color: var(--ink-blue);
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  padding: var(--space-xs) 0;
+  transition: opacity var(--duration-fast);
+}
+
+.shelf-label:hover {
+  opacity: 0.8;
+}
+
+.shelf-label .chevron {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  transition: transform var(--duration-fast);
+}
+
+.shelf-label:hover .chevron {
+  transform: translateX(2px);
+}
+
+.shelf-count {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Shelf board visual */
+.shelf-board-visual {
+  height: 6px;
+  margin: 0 var(--space-md) var(--space-sm);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(107, 76, 48, 0.3) 0%,
+      rgba(107, 76, 48, 0.15) 40%,
+      rgba(107, 76, 48, 0.05) 100%
+    );
+  border-radius: 1px;
+  box-shadow: var(--shadow-shelf);
+  position: relative;
+}
+
+.shelf-board-visual::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(196, 168, 126, 0.25);
+}
+
+/* ===== Items row (horizontal scroll) ===== */
+.shelf-items-row {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-md) var(--space-sm);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.shelf-items-row::-webkit-scrollbar {
+  display: none;
+}
+
+.shelf-items-row:empty::after {
+  content: '暂无物品';
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-style: italic;
+  padding: var(--space-md);
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
+}
+
+/* ===== Item Card (on shelf) ===== */
+.item-card {
+  flex-shrink: 0;
+  width: var(--item-card-size);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  scroll-snap-align: start;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-default);
+  position: relative;
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+}
+
+.item-card:active {
+  transform: scale(0.97);
+}
+
+.item-thumb {
+  width: var(--item-card-size);
+  height: var(--item-card-size);
+  border-radius: var(--radius-md);
+  background: var(--surface-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.item-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-thumb .thumb-placeholder {
+  width: 48px;
+  height: 48px;
+  opacity: 0.15;
+  color: var(--ink-blue);
+}
+
+.item-name {
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.3;
+  max-width: var(--item-card-size);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-price-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  color: var(--ink-blue);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Downlisted item */
+.item-card.downlisted .item-thumb {
+  opacity: 0.4;
+  filter: grayscale(0.6);
+}
+
+.item-card.downlisted .item-name {
+  color: var(--text-muted);
+}
+
+/* ===== Empty State ===== */
+.cabinet-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2xl) var(--space-xl);
+  gap: var(--space-md);
+  text-align: center;
+}
+
+.cabinet-empty svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.12;
+  color: var(--ink-blue);
+}
+
+.cabinet-empty h3 {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--ink-blue);
+  font-weight: 400;
+}
+
+.cabinet-empty p {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.cabinet-empty .add-btn {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-xl);
+  background: var(--ink-blue);
+  color: var(--text-inverse);
+  border-radius: 999px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background var(--duration-fast);
+  box-shadow: var(--shadow-card);
+}
+
+.cabinet-empty .add-btn:hover {
+  background: var(--ink-blue-light);
+}
+
+/* ===== Sub-cabinet ===== */
+.sub-shelf-section {
+  position: relative;
+  margin-bottom: var(--space-md);
+}
+
+.sub-shelf-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-md) var(--space-xs);
+}
+
+.sub-shelf-label {
+  font-family: var(--font-serif);
+  font-size: 0.9375rem;
+  color: var(--ink-blue);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  padding: var(--space-xs) 0;
+}
+
+.sub-shelf-label:hover {
+  opacity: 0.8;
+}
+
+/* ===== Breadcrumb (Sub-cabinet navigation) ===== */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.breadcrumb::-webkit-scrollbar {
+  display: none;
+}
+
+.breadcrumb-item {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color var(--duration-fast);
+}
+
+.breadcrumb-item:hover {
+  color: var(--ink-blue);
+}
+
+.breadcrumb-item.current {
+  color: var(--ink-blue);
+  font-weight: 600;
+}
+
+.breadcrumb-separator {
+  color: var(--warm-gray-300);
+  font-size: 0.75rem;
+}

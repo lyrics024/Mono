@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mono">
+  <meta name="theme-color" content="#1B365D">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+  <title>Mono</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/animation.css">
+  <link rel="stylesheet" href="css/cabinet.css">
+  <link rel="stylesheet" href="css/item.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/search.css">
+  <link rel="stylesheet" href="css/settings.css">
+  <link rel="stylesheet" href="css/crop.css">
+  <link rel="stylesheet" href="css/batch.css">
+</head>
+<body>
+  <!-- Cabinet Door Animation Overlay -->
+  <div id="cabinet-anim-overlay" class="cabinet-anim-overlay">
+    <div class="cabinet-frame">
+      <div class="cabinet-interior">
+        <div class="shelf-row"><div class="shelf-board"></div></div>
+        <div class="shelf-row"><div class="shelf-board"></div></div>
+        <div class="shelf-row"><div class="shelf-board"></div></div>
+      </div>
+      <div class="cabinet-door cabinet-door-left"></div>
+      <div class="cabinet-door cabinet-door-right"></div>
+    </div>
+  </div>
+
+  <!-- App Shell -->
+  <div id="app" class="app-container hidden">
+    <!-- Tab Bar -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" data-tab="home">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        <span>Mono</span>
+      </button>
+      <button class="tab-btn" data-tab="search">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <span>搜索</span>
+      </button>
+      <button class="tab-btn" data-tab="settings">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>设置</span>
+      </button>
+    </nav>
+
+    <!-- Pages -->
+    <main id="page-home" class="page active">
+      <header class="page-header">
+        <h1 class="page-title">Mono</h1>
+        <div class="page-header-actions">
+          <button id="btn-manage-cats" class="icon-btn" title="分类管理">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <button id="btn-batch-mode" class="icon-btn" title="批量操作">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </button>
+          <button id="btn-add-item" class="icon-btn accent" title="添加物品">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="cabinet-view" class="cabinet-view">
+        <!-- Shelves rendered by JS -->
+      </div>
+    </main>
+
+    <main id="page-subcabinet" class="page">
+      <header class="page-header">
+        <button id="btn-sub-back" class="icon-btn back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <h1 id="subcabinet-title" class="page-title"></h1>
+        <div class="page-header-actions">
+          <button id="btn-sub-batch" class="icon-btn" title="批量操作">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </button>
+          <button id="btn-sub-add" class="icon-btn accent" title="添加物品">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="subcabinet-view" class="cabinet-view">
+        <!-- Sub-shelves rendered by JS -->
+      </div>
+    </main>
+
+    <main id="page-detail" class="page">
+      <header class="page-header">
+        <button id="btn-detail-back" class="icon-btn back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <h1 class="page-title">物品详情</h1>
+        <div class="page-header-actions">
+          <button id="btn-detail-edit" class="icon-btn" title="编辑">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button id="btn-detail-delete" class="icon-btn danger" title="删除">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="detail-content" class="detail-content">
+        <!-- Detail rendered by JS -->
+      </div>
+    </main>
+
+    <main id="page-form" class="page">
+      <header class="page-header">
+        <button id="btn-form-back" class="icon-btn back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <h1 id="form-title" class="page-title">添加物品</h1>
+        <button id="btn-form-save" class="text-btn accent">保存</button>
+      </header>
+      <form id="item-form" class="item-form">
+        <!-- Form rendered by JS -->
+      </form>
+    </main>
+
+    <main id="page-category" class="page">
+      <header class="page-header">
+        <button id="btn-cat-back" class="icon-btn back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <h1 class="page-title">分类管理</h1>
+        <button id="btn-add-cat" class="icon-btn accent" title="添加分类">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+      </header>
+      <div id="category-tree" class="category-tree">
+        <!-- Category tree rendered by JS -->
+      </div>
+    </main>
+
+    <main id="page-search" class="page">
+      <header class="page-header">
+        <div class="search-bar">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input id="search-input" type="text" placeholder="搜索物品名称、分类、渠道..." autocomplete="off">
+          <button id="search-clear" class="icon-btn small hidden">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="search-results" class="search-results">
+        <!-- Results rendered by JS -->
+      </div>
+    </main>
+
+    <main id="page-settings" class="page">
+      <header class="page-header">
+        <h1 class="page-title">设置</h1>
+      </header>
+      <div id="settings-list" class="settings-list">
+        <!-- Settings rendered by JS -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Overlay -->
+  <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal-content" class="modal-content"></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/cabinet.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/form.js"></script>
+  <script src="js/category.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/notifications.js"></script>
+  <script src="js/crop.js"></script>
+  <script src="js/batch.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

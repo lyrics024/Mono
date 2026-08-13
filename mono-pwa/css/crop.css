@@ -1,0 +1,168 @@
+/* ===== Image Crop Modal — Fullscreen overlay ===== */
+.crop-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(26, 18, 16, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+}
+
+.crop-overlay.hidden {
+  display: none;
+}
+
+.crop-modal {
+  background: var(--surface-warm);
+  border-radius: var(--radius-xl);
+  padding: var(--space-xl);
+  max-width: 400px;
+  width: 100%;
+  box-shadow: var(--shadow-modal);
+  animation: scaleIn var(--duration-normal) var(--ease-out-expo);
+}
+
+.crop-modal h3 {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  color: var(--ink-blue);
+  margin-bottom: var(--space-xs);
+  font-weight: 400;
+}
+
+.crop-hint {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+  line-height: 1.4;
+}
+
+/* Workspace — square crop area */
+.crop-workspace {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  background: #000;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+}
+
+.crop-workspace:active {
+  cursor: grabbing;
+}
+
+.crop-workspace img {
+  position: absolute;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+  will-change: transform, left, top;
+}
+
+/* Dark overlay around the square crop frame */
+.crop-frame-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  /* The entire workspace IS the crop frame, so no dark overlay needed */
+  /* We add corner marks instead */
+}
+
+.crop-frame-overlay::before,
+.crop-frame-overlay::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.crop-frame-overlay::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.crop-frame-overlay::after {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+}
+
+/* Two more corners via box-shadow trick — simplified with just two diagonal corners */
+
+/* Zoom controls */
+.crop-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  margin-top: var(--space-md);
+}
+
+.crop-zoom-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--warm-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: var(--text-secondary);
+  transition: background var(--duration-fast);
+}
+
+.crop-zoom-btn:hover {
+  background: var(--warm-gray-200);
+}
+
+.crop-controls span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Action buttons */
+.crop-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  justify-content: flex-end;
+}
+
+.crop-btn {
+  padding: var(--space-sm) var(--space-xl);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: all var(--duration-fast);
+}
+
+.crop-btn.cancel {
+  background: var(--warm-gray-100);
+  color: var(--text-secondary);
+}
+
+.crop-btn.cancel:hover {
+  background: var(--warm-gray-200);
+}
+
+.crop-btn.confirm {
+  background: var(--ink-blue);
+  color: var(--text-inverse);
+}
+
+.crop-btn.confirm:hover {
+  background: var(--ink-blue-light);
+}

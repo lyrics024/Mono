@@ -1,0 +1,73 @@
+/* ===== Settings Page ===== */
+.settings-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.settings-section-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-md) var(--space-sm) var(--space-xs);
+  font-weight: 600;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  background: var(--surface-white);
+  border-radius: var(--radius-md);
+  min-height: 48px;
+  box-shadow: var(--shadow-card);
+}
+
+.settings-label {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+.settings-desc {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.settings-action {
+  font-size: 0.9375rem;
+  color: var(--ink-blue);
+  font-weight: 500;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background var(--duration-fast);
+  cursor: pointer;
+}
+
+.settings-action:hover {
+  background: var(--ink-blue-bg);
+}
+
+.settings-action.danger {
+  color: var(--color-danger);
+}
+
+.settings-row .syncing-indicator {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.settings-version {
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+  color: var(--text-muted);
+  font-size: 0.75rem;
+}

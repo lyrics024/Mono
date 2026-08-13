@@ -1,0 +1,178 @@
+/* ===== Item Add / Edit Form ===== */
+.item-form {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Image upload area */
+.form-images-section {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.form-image-slot {
+  width: 100px;
+  height: 100px;
+  border-radius: var(--radius-md);
+  background: var(--warm-gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--duration-fast);
+}
+
+.form-image-slot:hover {
+  background: var(--warm-gray-200);
+}
+
+.form-image-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form-image-slot .add-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--text-muted);
+}
+
+.form-image-slot .remove-image {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+}
+
+.form-image-slot.image-main {
+  border: 2px solid var(--ink-blue);
+}
+
+.form-image-slot.image-main::after {
+  content: '封面';
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  right: 4px;
+  text-align: center;
+  font-size: 0.625rem;
+  color: white;
+  background: rgba(27, 54, 93, 0.7);
+  border-radius: 3px;
+  padding: 1px 0;
+}
+
+/* Form fields */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.form-label {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.form-label .required {
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-white);
+  border: 1px solid var(--warm-gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  transition: border-color var(--duration-fast);
+  height: 44px;
+  line-height: 1.4;
+}
+
+.form-input:focus {
+  border-color: var(--ink-blue);
+  outline: none;
+}
+
+.form-input::placeholder {
+  color: var(--warm-gray-300);
+}
+
+.form-input.has-error {
+  border-color: var(--color-danger);
+}
+
+.form-input[type="date"] {
+  -webkit-appearance: none;
+}
+
+.form-textarea {
+  min-height: 80px;
+  resize: vertical;
+  padding: var(--space-sm) var(--space-md);
+  line-height: 1.5;
+}
+
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-danger);
+  min-height: 0;
+  transition: all var(--duration-fast);
+}
+
+/* Segmented control for status */
+.segmented-control {
+  display: flex;
+  background: var(--warm-gray-100);
+  border-radius: var(--radius-md);
+  padding: 2px;
+  gap: 2px;
+}
+
+.segmented-option {
+  flex: 1;
+  text-align: center;
+  padding: var(--space-sm);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--duration-fast);
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.segmented-option.active {
+  background: var(--surface-white);
+  color: var(--ink-blue);
+  box-shadow: var(--shadow-card);
+}
+
+/* Auto-calc note */
+.auto-calc-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 2px;
+}

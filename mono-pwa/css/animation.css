@@ -1,0 +1,160 @@
+/* ===== Cabinet Door Opening Animation ===== */
+.cabinet-anim-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--wood-interior);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cabinet-anim-overlay.hidden {
+  display: none;
+}
+
+.cabinet-frame {
+  width: 85vw;
+  max-width: 400px;
+  aspect-ratio: 3/4;
+  position: relative;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+/* Interior — shelves visible between doors */
+.cabinet-interior {
+  position: absolute;
+  inset: 0;
+  background: var(--wood-interior);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 8% 12%;
+  opacity: 0.6;
+}
+
+.shelf-row {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.shelf-board {
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(196, 168, 126, 0.15) 10%,
+    rgba(196, 168, 126, 0.4) 50%,
+    rgba(196, 168, 126, 0.15) 90%,
+    transparent 100%
+  );
+  border-radius: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Glow */
+.cabinet-interior::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 30%,
+    rgba(255, 235, 180, 0.06) 0%,
+    transparent 70%
+  );
+}
+
+/* Doors */
+.cabinet-door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.5%;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(180, 140, 100, 0.1) 0%,
+      transparent 40%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--wood-dark) 0%,
+      var(--wood-mid) 30%,
+      var(--wood-mid) 70%,
+      var(--wood-dark) 100%
+    );
+  z-index: 2;
+  transform-origin: left center;
+  transition: none;
+}
+
+.cabinet-door::before {
+  content: '';
+  position: absolute;
+  inset: 8%;
+  border: 1px solid rgba(196, 168, 126, 0.07);
+  border-radius: 2px;
+}
+
+/* Panel inset detail */
+.cabinet-door::after {
+  content: '';
+  position: absolute;
+  inset: 6% 12% 6% 12%;
+  border: 1px solid rgba(196, 168, 126, 0.05);
+  border-radius: 2px;
+}
+
+.cabinet-door-left {
+  left: 0;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+  transform-origin: left center;
+}
+
+.cabinet-door-right {
+  right: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.4);
+  transform-origin: right center;
+}
+
+/* Handle */
+.cabinet-door-left .door-handle,
+.cabinet-door-right .door-handle {
+  position: absolute;
+  top: 50%;
+  width: 4px;
+  height: 24px;
+  background: rgba(196, 168, 126, 0.25);
+  border-radius: 2px;
+}
+
+.cabinet-door-left .door-handle { right: 8px; }
+.cabinet-door-right .door-handle { left: 8px; }
+
+/* Animation states */
+.cabinet-door.animate-open-left {
+  animation: doorOpenLeft 0.7s var(--ease-out-expo) forwards;
+}
+
+.cabinet-door.animate-open-right {
+  animation: doorOpenRight 0.7s var(--ease-out-expo) forwards;
+}
+
+@keyframes doorOpenLeft {
+  0% { transform: rotateY(0); }
+  100% { transform: rotateY(-85deg); }
+}
+
+@keyframes doorOpenRight {
+  0% { transform: rotateY(0); }
+  100% { transform: rotateY(85deg); }
+}
+
+/* Door fade out — after doors open, fade overlay */
+.cabinet-anim-overlay.fade-out {
+  animation: fadeOut 0.5s var(--ease-default) forwards;
+}
