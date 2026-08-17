@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>window.__VIBE_ENV__ = 'mock';</script>
+<meta name="aicode-target-type" content="design" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>u_Rlpsx</title>
+  <link rel="icon" href="https://f2.eckwai.com/kos/nlav12333/aicode/logo/newlogo.png">
+  <script>
+  /* VIBE_APP_API_REWRITE_SCRIPT - /api/xxx 相对路径重写（vibeApp 模式，必须在业务脚本之前执行） */
+  
+  /* VIBE_DESIGN_PROXY_SCRIPT - fetch 请求代理（必须在所有业务脚本之前执行） */
+  
+  </script>
+  <link rel="stylesheet" href="https://f2.eckwai.com/kos/nlav12333/lingzhu-apps/aigc/m-ui.react.min.css" />
+  <style id="vibe-design-theme-vars">
+:root {
+  --color-primary: #1890ff;
+  --color-primary-bg: #e6f7ff;
+  --color-primary-hover: #40a9ff;
+  --color-primary-active: #096dd9;
+  --color-error: #ff4d4f;
+  --color-warning: #faad14;
+  --color-success: #52c41a;
+  --color-link: #1890ff;
+  --color-link-hover: #69c0ff;
+  --color-text: rgba(0, 0, 0, 0.88);
+  --color-text-secondary: rgba(0, 0, 0, 0.65);
+  --color-text-tertiary: rgba(0, 0, 0, 0.45);
+  --color-bg-base: #ffffff;
+  --color-bg-container: #ffffff;
+  --color-bg-layout: #f5f5f5;
+  --color-bg-mask: rgba(0, 0, 0, 0.45);
+  --color-border: #d9d9d9;
+  --color-border-secondary: #f0f0f0;
+  --color-fill: rgba(0, 0, 0, 0.15);
+  --color-fill-secondary: rgba(0, 0, 0, 0.06);
+  --radius-sm: 4px;
+  --radius-base: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-base: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 40px;
+  --color-wood-dark: #3E2A1A;
+  --color-wood-mid: #7A5230;
+  --color-wood-light: #A8734A;
+  --color-wood-grain: #8B6340;
+  --color-wood-surface: #C49A6C;
+  --color-canvas: #F7F3EE;
+  --color-surface: #EDE8E0;
+  --color-surface-warm: #F2EDE5;
+  --color-ink: #1E140A;
+  --color-ink-secondary: #5A4033;
+  --color-ink-muted: #9A7D6A;
+  --color-ink-placeholder: #BFA898;
+  --color-hairline: #D9CFC4;
+  --color-hairline-strong: #C0B0A0;
+  --color-accent: #C1603A;
+  --color-accent-soft: #E8C4A8;
+  --color-tag-ceramic: #E8D5C4;
+  --color-tag-plant: #D4E4C8;
+  --color-tag-book: #D4DCF0;
+  --color-tag-tool: #E8E0C4;
+  --color-tag-cloth: #E8D4D4;
+  --color-shadow-wood: rgba(62, 42, 26, 0.12);
+  --color-shadow-deep: rgba(30, 20, 10, 0.20);
+  --color-overlay: rgba(30, 20, 10, 0.45);
+  --font-family-base: 'Georgia', 'Noto Serif SC', serif;
+  --font-family-sans: '-apple-system', 'BlinkMacSystemFont', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', monospace;
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+  --spacing-xxs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+  --spacing-section: 64px;
+  --shadow-sm: 0 2px 8px rgba(62, 42, 26, 0.10);
+  --shadow-md: 0 4px 16px rgba(62, 42, 26, 0.14);
+  --shadow-lg: 0 8px 32px rgba(30, 20, 10, 0.18);
+  --shadow-shelf: 0 6px 20px rgba(62, 42, 26, 0.22);
+}
+</style>
+  
+  <script src="https://f2.eckwai.com/kos/nlav12333/web-assets/lib/react/18.2.0/react.production.min.js"></script>
+<script src="https://f2.eckwai.com/kos/nlav12333/web-assets/lib/react-dom/18.2.0/react-dom.production.min.js"></script>
+<script src="https://p4-ec.ecukwai.com/kos/nlav11092/vibe-coding/assets/react-jsx-runtime/index.umd.js"></script>
+<script src="https://f2.beckwai.com/kos/nlav12333/web-assets/lib/dayjs/1.11.13/dayjs.min.js"></script>
+<script src="https://f2.eckwai.com/kos/nlav12333/lingzhu-apps/aigc/m-ui.2.2.1.react.min.js"></script>
+<script src="https://f2.eckwai.com/kos/nlav12333/lingzhu-apps/aigc/m-ui.icons.umd.min.js"></script>
+<script src="https://p4-ec.eckwai.com/kos/nlav12333/aicode/static/umd/echarts.min.js"></script>
+<script src="https://p4-ec.eckwai.com/kos/nlav12333/aicode/static/umd/echarts-for-react.min.js"></script>
+  <script>
+  window.react_jsx_runtime = {
+    Fragment: window.React.Fragment,
+    jsx: window.React.createElement,
+    jsxs: window.React.createElement,
+    jsxDEV: window.React.createElement,
+  };
+ if (!window.antd) {
+      window.antd = window['@m-ui/react'];
+    };
+</script>
+
+<style>
+    html, body {
+      height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+      #root {
+      height: 100%;
+      -webkit-font-smoothing: antialiased;
+      }
+</style>
+</head>
+<body>
+  <div id="root" class="aicode-preview-container"></div>
+  <script defer src="https://p2-ec.eckwai.com/kos/nlav12333/aicode/share/20625/bd639f01-a17a-4b2e-8eac-e6198189bb0f.635d263de459b984.js"></script>
+</body>
+</html>
