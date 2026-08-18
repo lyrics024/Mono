@@ -36,7 +36,8 @@
 .detail-gallery-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .detail-gallery-image .placeholder-large {
@@ -96,6 +97,12 @@
   font-size: 1.125rem;
 }
 
+.detail-note-value {
+  max-width: 100%;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
 /* Status badge */
 .status-badge {
   display: inline-flex;
@@ -152,4 +159,63 @@
 .delete-btn:hover {
   background: var(--color-danger);
   color: white;
+}
+
+/* ===== Desktop Detail Panel ===== */
+@media (min-width: 820px) {
+  .desktop-detail-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-md);
+    gap: var(--space-md);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0)),
+      transparent;
+  }
+
+  .desktop-detail-panel .detail-gallery {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--space-sm);
+    padding-bottom: 0;
+  }
+
+  .desktop-detail-panel .detail-gallery-image {
+    width: 100%;
+    height: 220px;
+    border-radius: var(--radius-md);
+    box-shadow: none;
+    border: 1px solid rgba(94, 76, 56, 0.12);
+  }
+
+  .desktop-detail-panel .detail-gallery-image:not(:only-child) {
+    min-width: 260px;
+  }
+
+  .desktop-detail-panel .detail-fields {
+    border-radius: var(--radius-md);
+    background: rgba(94, 76, 56, 0.13);
+  }
+
+  .desktop-detail-panel .detail-field {
+    padding: 12px var(--space-md);
+    background: rgba(255, 252, 246, 0.78);
+  }
+
+  .desktop-detail-panel .detail-field-label {
+    min-width: 72px;
+    font-size: 0.75rem;
+  }
+
+  .desktop-detail-panel .detail-field-value {
+    font-size: 0.875rem;
+  }
+
+  .desktop-detail-panel .detail-field-value.price {
+    font-size: 1rem;
+  }
+
+  .desktop-detail-panel .detail-actions {
+    display: none;
+  }
 }

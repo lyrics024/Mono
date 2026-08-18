@@ -80,6 +80,7 @@
       rgba(180, 140, 100, 0.1) 0%,
       transparent 40%
     ),
+    url('../assets/textures/smoked-walnut-veneer-bg.webp'),
     linear-gradient(
       to bottom,
       var(--wood-dark) 0%,
@@ -87,6 +88,9 @@
       var(--wood-mid) 70%,
       var(--wood-dark) 100%
     );
+  background-size: auto, 320px 320px, auto;
+  background-position: center, center, center;
+  background-blend-mode: soft-light, multiply, normal;
   z-index: 2;
   transform-origin: left center;
   transition: none;

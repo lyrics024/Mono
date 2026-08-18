@@ -113,11 +113,29 @@ async function handleExport() {
   await storeReady;
   try {
     const json = await exportData();
+    const filename = `mono_backup_${new Date().toISOString().slice(0, 10)}.json`;
+    const size = new Blob([json]).size;
+
+    if (size > 50 * 1024 * 1024) {
+      const confirmed = await showModal({
+        title: '导出文件较大',
+        message: `预计导出 ${formatBytes(size)}，请确保本机有足够空间并耐心等待。`,
+        confirmText: '继续导出',
+        cancelText: '取消'
+      });
+      if (!confirmed) return;
+    }
+
+    if (window.__MONO_MAC_APP__ && window.webkit?.messageHandlers?.monoExport) {
+      window.webkit.messageHandlers.monoExport.postMessage({ filename, json });
+      return;
+    }
+
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `mono_backup_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

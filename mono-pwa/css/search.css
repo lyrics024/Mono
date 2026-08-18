@@ -107,7 +107,8 @@
 .search-item-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 
 .search-item-info {
@@ -139,6 +140,15 @@
   font-size: 0.8125rem;
   color: var(--ink-blue);
   font-weight: 600;
+}
+
+.search-item-note {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ===== Category Tree Page ===== */
@@ -287,4 +297,3 @@
   color: var(--text-muted);
   padding: var(--space-xs);
 }
-

@@ -11,6 +11,10 @@
   --wood-shelf: #6b4c30;
   --wood-shelf-light: #c4a87e;
   --wood-interior: #1a1210;
+  --cabinet-bg-overlay-top: rgba(245, 244, 237, 0.62);
+  --cabinet-bg-overlay-bottom: rgba(245, 244, 237, 0.78);
+  --page-chrome-surface: rgba(245, 244, 237, 0.86);
+  --wood-texture-size: min(1600px, 190vw);
 
   /* Ink palette — single accent, Kami blue */
   --ink-blue: #1B365D;
@@ -60,9 +64,9 @@
   --shadow-shelf: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 
   /* Typography */
-  --font-serif: 'Noto Serif CJK SC', 'Source Han Serif SC', '思源宋体', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Noto Sans CJK SC', 'Source Han Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  --font-mono: 'SF Mono', 'Menlo', 'Monaco', monospace;
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', '思源宋体', serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', '思源黑体', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Noto Sans Mono', monospace;
 
   /* Layout */
   --header-height: 52px;
@@ -76,6 +80,14 @@
   --duration-fast: 150ms;
   --duration-normal: 250ms;
   --duration-slow: 400ms;
+}
+
+/* ===== Theme: Classic ===== */
+.theme-classic {
+  --cabinet-bg-overlay-top: rgba(245, 244, 237, 0.58);
+  --cabinet-bg-overlay-bottom: rgba(245, 244, 237, 0.74);
+  --page-chrome-surface: rgba(245, 244, 237, 0.84);
+  --wood-texture-size: min(1440px, 230vw);
 }
 
 /* ===== Theme: Dark ===== */
@@ -104,6 +116,9 @@
   --wood-shelf: #3a322a;
   --wood-shelf-light: #5a5248;
   --wood-interior: #0a0808;
+  --cabinet-bg-overlay-top: rgba(26, 24, 20, 0.84);
+  --cabinet-bg-overlay-bottom: rgba(26, 24, 20, 0.92);
+  --page-chrome-surface: rgba(26, 24, 20, 0.88);
 }
 
 /* ===== Theme: Minimal ===== */
@@ -131,4 +146,7 @@
   --wood-shelf: #d0d0d0;
   --wood-shelf-light: #e8e8e8;
   --wood-interior: #efefef;
+  --cabinet-bg-overlay-top: rgba(250, 250, 250, 0.93);
+  --cabinet-bg-overlay-bottom: rgba(250, 250, 250, 0.97);
+  --page-chrome-surface: rgba(250, 250, 250, 0.9);
 }

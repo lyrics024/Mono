@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-detail-delete')?.addEventListener('click', () => {
     if (currentItemId) deleteItemFromDetail(currentItemId);
   });
+  document.getElementById('btn-panel-close')?.addEventListener('click', () => goBackFromDetail());
+  document.getElementById('btn-panel-edit')?.addEventListener('click', () => {
+    if (currentItemId) showItemForm(currentItemId);
+  });
+  document.getElementById('btn-panel-delete')?.addEventListener('click', () => {
+    if (currentItemId) deleteItemFromDetail(currentItemId);
+  });
 
   // Form page
   document.getElementById('btn-form-back')?.addEventListener('click', () => goBackFromForm());
@@ -60,6 +67,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  window.addEventListener('resize', () => {
+    if (!isDesktopDetailMode() && isDesktopDetailOpen() && currentItemId) {
+      const itemId = currentItemId;
+      closeDesktopDetailPanel({ clearCurrent: false });
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-detail').classList.add('active');
+      renderItemDetail(itemId);
+    }
+  });
+
   // Start — play animation or skip
   if (isColdStart()) {
     // Show animation first, DB init in parallel
@@ -80,7 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 3000);
 });
 
-// Register service worker
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js?build=20260813-5', { updateViaCache: 'none' });
+// Register service worker only when served over HTTP(S). The macOS wrapper loads
+// bundled files directly, where service workers are not available or needed.
+if ('serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
+  navigator.serviceWorker.register('/sw.js?build=20260818-1', { updateViaCache: 'none' });
 }

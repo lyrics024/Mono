@@ -71,6 +71,8 @@ async function performSearch(query) {
     } else {
       thumbContent = `<div class="thumb-placeholder">${placeholderSVG(36)}</div>`;
     }
+    const note = (item.note || '').trim();
+    const noteHtml = note ? `<div class="search-item-note">${escapeHtml(note)}</div>` : '';
 
     html += `
       <div class="${cardClass}" onclick="showItemDetail('${escapeHtml(item.id)}')">
@@ -81,6 +83,7 @@ async function performSearch(query) {
           <div class="search-item-name">${escapeHtml(item.name)}</div>
           <div class="search-item-cat">${escapeHtml(catPath)}</div>
           <div class="search-item-price">${formatPrice(item.price)}</div>
+          ${noteHtml}
         </div>
       </div>
     `;

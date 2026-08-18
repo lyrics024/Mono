@@ -1,6 +1,9 @@
-/* ===== Image Crop Modal — 1:1 crop with pan/zoom ===== */
+/* ===== Image Crop Modal — aspect-preserving crop with pan/zoom ===== */
 
 let cropState = null;
+const CROP_OUTPUT_MAX_SIZE = 720;
+const CROP_OUTPUT_TYPE = 'image/jpeg';
+const CROP_OUTPUT_QUALITY = 0.78;
 
 function openCropModal(dataUrl) {
   return new Promise((resolve) => {
@@ -16,7 +19,7 @@ function openCropModal(dataUrl) {
     cropOverlay.innerHTML = `
       <div class="crop-modal">
         <h3>裁切图片</h3>
-        <p class="crop-hint">拖动调整位置，双指或按钮缩放，裁切为 1:1 正方形</p>
+        <p class="crop-hint">保持原图比例，拖动调整位置，双指或按钮缩放裁切</p>
         <div class="crop-workspace" id="crop-workspace">
           <img id="crop-img" src="" draggable="false" style="display:none;">
           <div class="crop-frame-overlay" id="crop-frame-overlay"></div>
@@ -47,21 +50,26 @@ function openCropModal(dataUrl) {
       offsetX: 0,
       offsetY: 0,
       scale: 1,
-      minScale: 1
+      minScale: 1,
+      frameW: 0,
+      frameH: 0
     };
 
     img.onload = () => {
       cropState.naturalW = img.naturalWidth;
       cropState.naturalH = img.naturalHeight;
 
-      // Crop frame size matches workspace width (square)
-      const wsSize = workspace.offsetWidth;
-      const scaleX = wsSize / img.naturalWidth;
-      const scaleY = wsSize / img.naturalHeight;
+      const frame = getAspectFrameSize(img.naturalWidth, img.naturalHeight);
+      cropState.frameW = frame.width;
+      cropState.frameH = frame.height;
+      workspace.style.width = frame.width + 'px';
+      workspace.style.height = frame.height + 'px';
+
+      const scaleX = frame.width / img.naturalWidth;
+      const scaleY = frame.height / img.naturalHeight;
       cropState.minScale = Math.max(scaleX, scaleY);
       cropState.scale = cropState.minScale;
 
-      // Center image
       cropState.offsetX = 0;
       cropState.offsetY = 0;
 
@@ -73,14 +81,14 @@ function openCropModal(dataUrl) {
     function updateCropPreview() {
       if (!cropState) return;
       const s = cropState.scale;
-      const wsSize = workspace.offsetWidth;
+      constrainCropOffset();
 
       const displayW = cropState.naturalW * s;
       const displayH = cropState.naturalH * s;
 
       // Position image so its center is at workspace center + offset
-      const centerX = wsSize / 2;
-      const centerY = wsSize / 2;
+      const centerX = cropState.frameW / 2;
+      const centerY = cropState.frameH / 2;
 
       img.style.width = displayW + 'px';
       img.style.height = displayH + 'px';
@@ -90,6 +98,34 @@ function openCropModal(dataUrl) {
 
       const pct = Math.round((s / cropState.minScale) * 100);
       zoomLabel.textContent = pct + '%';
+    }
+
+    function getAspectFrameSize(naturalW, naturalH) {
+      const ratio = naturalW / naturalH;
+      const maxW = Math.min(window.innerWidth - 64, 640);
+      const maxH = Math.min(window.innerHeight - 260, 560);
+      let width = maxW;
+      let height = width / ratio;
+
+      if (height > maxH) {
+        height = maxH;
+        width = height * ratio;
+      }
+
+      return {
+        width: Math.max(1, Math.round(width)),
+        height: Math.max(1, Math.round(height))
+      };
+    }
+
+    function constrainCropOffset() {
+      const displayW = cropState.naturalW * cropState.scale;
+      const displayH = cropState.naturalH * cropState.scale;
+      const maxX = Math.max(0, (displayW - cropState.frameW) / 2);
+      const maxY = Math.max(0, (displayH - cropState.frameH) / 2);
+
+      cropState.offsetX = Math.max(-maxX, Math.min(maxX, cropState.offsetX));
+      cropState.offsetY = Math.max(-maxY, Math.min(maxY, cropState.offsetY));
     }
 
     // Pan: drag
@@ -168,18 +204,23 @@ function openCropModal(dataUrl) {
     // Crop — draw the visible crop frame region onto canvas
     function doCrop() {
       const canvas = document.createElement('canvas');
-      const outSize = 800;
-      canvas.width = outSize;
-      canvas.height = outSize;
+      const frameRatio = cropState.frameW / cropState.frameH;
+      const outW = frameRatio >= 1
+        ? CROP_OUTPUT_MAX_SIZE
+        : Math.round(CROP_OUTPUT_MAX_SIZE * frameRatio);
+      const outH = frameRatio >= 1
+        ? Math.round(CROP_OUTPUT_MAX_SIZE / frameRatio)
+        : CROP_OUTPUT_MAX_SIZE;
+      canvas.width = outW;
+      canvas.height = outH;
       const ctx = canvas.getContext('2d');
 
       ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, outSize, outSize);
+      ctx.fillRect(0, 0, outW, outH);
 
       const s = cropState.scale;
-      const wsSize = workspace.offsetWidth;
-      const centerX = wsSize / 2;
-      const centerY = wsSize / 2;
+      const centerX = cropState.frameW / 2;
+      const centerY = cropState.frameH / 2;
 
       // Image top-left in workspace pixels
       const displayW = cropState.naturalW * s;
@@ -187,16 +228,16 @@ function openCropModal(dataUrl) {
       const imgLeft = centerX - displayW / 2 + cropState.offsetX;
       const imgTop = centerY - displayH / 2 + cropState.offsetY;
 
-      // Crop frame = entire workspace (it's square)
+      // Crop frame = entire workspace, preserving the frame aspect ratio.
       // Source rect on natural image = (workspacePixels - imgLeft) / scale
       const srcX = (0 - imgLeft) / s;
       const srcY = (0 - imgTop) / s;
-      const srcW = wsSize / s;
-      const srcH = wsSize / s;
+      const srcW = cropState.frameW / s;
+      const srcH = cropState.frameH / s;
 
-      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outSize, outSize);
+      ctx.drawImage(img, srcX, srcY, srcW, srcH, 0, 0, outW, outH);
 
-      const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      const croppedDataUrl = canvas.toDataURL(CROP_OUTPUT_TYPE, CROP_OUTPUT_QUALITY);
       cleanup();
       resolve(croppedDataUrl);
     }

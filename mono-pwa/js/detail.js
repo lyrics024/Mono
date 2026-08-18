@@ -1,12 +1,17 @@
 /* ===== Item Detail Page ===== */
 
-async function renderItemDetail(itemId) {
+async function renderItemDetail(itemId, targetId = 'detail-content') {
   await storeReady;
 
   const item = await getById('items', itemId);
   if (!item) {
     showToast('该物品已被删除');
-    goBackFromDetail();
+    if (targetId === 'desktop-detail-content') {
+      closeDesktopDetailPanel();
+      refreshActiveListView();
+    } else {
+      goBackFromDetail();
+    }
     return;
   }
 
@@ -15,7 +20,8 @@ async function renderItemDetail(itemId) {
   const dailyPrice = calcDailyPrice(item);
   const remainingWarranty = calcRemainingWarranty(item);
 
-  const container = document.getElementById('detail-content');
+  const container = document.getElementById(targetId);
+  if (!container) return;
 
   let galleryHtml = '';
   const images = [item.mainImage, ...(item.extraImages || [])].filter(Boolean);
@@ -68,6 +74,10 @@ async function renderItemDetail(itemId) {
         <span class="detail-field-value">${escapeHtml(item.purchaseChannel) || '—'}</span>
       </div>
       <div class="detail-field">
+        <span class="detail-field-label">备注</span>
+        <span class="detail-field-value detail-note-value">${escapeHtml(item.note) || '—'}</span>
+      </div>
+      <div class="detail-field">
         <span class="detail-field-label">使用天数</span>
         <span class="detail-field-value auto-calc">${formatDays(usageDays)} <span style="font-size:0.6875rem;">自动计算</span></span>
       </div>
@@ -113,7 +123,8 @@ async function toggleItemStatus(itemId) {
   }
   item.updatedAt = Date.now();
   await put('items', item);
-  renderItemDetail(itemId);
+  refreshActiveListView();
+  renderItemDetail(itemId, isDesktopDetailOpen() ? 'desktop-detail-content' : 'detail-content');
 }
 
 async function deleteItemFromDetail(itemId) {
@@ -128,5 +139,11 @@ async function deleteItemFromDetail(itemId) {
 
   await remove('items', itemId);
   showToast('物品已删除');
+  if (isDesktopDetailOpen()) {
+    closeDesktopDetailPanel();
+    refreshActiveListView();
+    detailSource = null;
+    return;
+  }
   goBackFromDetail();
 }

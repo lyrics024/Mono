@@ -12,7 +12,7 @@
   <title>Mono</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/animation.css">
@@ -117,6 +117,24 @@
       </div>
     </main>
 
+    <aside id="desktop-detail-panel" class="desktop-detail-panel" aria-label="物品详情">
+      <header class="desktop-detail-header">
+        <h2 class="desktop-detail-title">物品详情</h2>
+        <div class="desktop-detail-actions">
+          <button id="btn-panel-edit" class="icon-btn" title="编辑">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+          <button id="btn-panel-delete" class="icon-btn danger" title="删除">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
+          </button>
+          <button id="btn-panel-close" class="icon-btn" title="关闭">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </header>
+      <div id="desktop-detail-content" class="detail-content desktop-detail-content"></div>
+    </aside>
+
     <main id="page-form" class="page">
       <header class="page-header">
         <button id="btn-form-back" class="icon-btn back-btn">
@@ -149,7 +167,7 @@
       <header class="page-header">
         <div class="search-bar">
           <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-          <input id="search-input" type="text" placeholder="搜索物品名称、分类、渠道..." autocomplete="off">
+          <input id="search-input" type="text" placeholder="搜索物品名称、分类、渠道、备注..." autocomplete="off">
           <button id="search-clear" class="icon-btn small hidden">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>

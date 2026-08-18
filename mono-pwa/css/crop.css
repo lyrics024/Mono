@@ -20,8 +20,11 @@
   background: var(--surface-warm);
   border-radius: var(--radius-xl);
   padding: var(--space-xl);
-  max-width: 400px;
-  width: 100%;
+  width: auto;
+  max-width: min(720px, calc(100vw - 32px));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--shadow-modal);
   animation: scaleIn var(--duration-normal) var(--ease-out-expo);
 }
@@ -41,11 +44,11 @@
   line-height: 1.4;
 }
 
-/* Workspace — square crop area */
+/* Workspace — aspect-preserving crop area */
 .crop-workspace {
   position: relative;
   width: 100%;
-  aspect-ratio: 1;
+  aspect-ratio: auto;
   background: #000;
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -65,7 +68,7 @@
   will-change: transform, left, top;
 }
 
-/* Dark overlay around the square crop frame */
+/* Corner marks around the crop frame */
 .crop-frame-overlay {
   position: absolute;
   inset: 0;

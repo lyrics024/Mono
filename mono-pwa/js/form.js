@@ -78,6 +78,12 @@ async function renderItemForm(itemId = null) {
       <input type="text" class="form-input" id="form-channel" placeholder="例如：京东、淘宝、线下实体店" value="${escapeHtml(item ? (item.purchaseChannel || '') : '')}">
     </div>
 
+    <!-- Note -->
+    <div class="form-group">
+      <label class="form-label">备注</label>
+      <textarea class="form-input form-textarea" id="form-note" placeholder="记录使用感受、来源、摆放说明等">${escapeHtml(item ? (item.note || '') : '')}</textarea>
+    </div>
+
     <!-- Warranty End Date -->
     <div class="form-group">
       <label class="form-label">保修截止日期</label>
@@ -166,7 +172,7 @@ async function handleImagePick(e) {
 
   const dataUrl = await readFileAsDataURL(file);
 
-  // Open 1:1 crop modal
+  // Open aspect-preserving crop modal
   const croppedUrl = await openCropModal(dataUrl);
   if (!croppedUrl) return; // User cancelled
 
@@ -209,6 +215,7 @@ async function saveItemForm() {
   const categoryId = document.getElementById('form-category').value;
   const purchaseDate = document.getElementById('form-purchase-date').value;
   const channel = document.getElementById('form-channel').value.trim();
+  const note = document.getElementById('form-note').value.trim();
   const warrantyEndDate = document.getElementById('form-warranty').value;
   const status = document.getElementById('form-status').querySelector('.segmented-option.active').dataset.value;
 
@@ -251,32 +258,38 @@ async function saveItemForm() {
   // Build item
   const mainImage = formImages.find(img => img.isMain);
   const extraImages = formImages.filter(img => !img.isMain);
+  const editingId = document.getElementById('form-item-id').value;
+  const existing = editingId ? await getById('items', editingId) : null;
+  let sortOrder = await getNextItemSortOrder(categoryId || '_uncategorized_');
 
   const itemData = {
-    id: document.getElementById('form-item-id').value || generateId(),
+    id: editingId || generateId(),
     name,
     price,
     categoryId: categoryId || '_uncategorized_',
     purchaseDate: purchaseDate || null,
     purchaseChannel: channel || '',
+    note: note || '',
     warrantyEndDate: warrantyEndDate || null,
     status,
     mainImage: mainImage ? mainImage.dataUrl : null,
     extraImages: extraImages.map(img => img.dataUrl),
+    sortOrder,
     createdAt: Date.now(),
     updatedAt: Date.now()
   };
 
   // If editing, preserve createdAt
-  const editingId = document.getElementById('form-item-id').value;
   if (editingId) {
-    const existing = await getById('items', editingId);
     if (!existing) {
       showToast('该物品已被删除');
       goBackFromForm();
       return;
     }
     itemData.createdAt = existing.createdAt;
+    if (existing.categoryId === itemData.categoryId && existing.status === itemData.status) {
+      itemData.sortOrder = getItemSortOrder(existing);
+    }
   }
 
   await put('items', itemData);
@@ -284,10 +297,7 @@ async function saveItemForm() {
 
   showToast(editingId ? '物品已更新' : '物品已添加');
 
-  // Navigate to detail
-  document.getElementById('page-form').classList.remove('active');
-  document.getElementById('page-detail').classList.add('active');
-  renderItemDetail(itemData.id);
+  showSavedItemDetail(itemData.id);
 
   // Check warranty for notification
   checkWarrantyForItem(itemData);

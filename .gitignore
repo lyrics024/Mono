@@ -1,3 +1,9 @@
 .DS_Store
 *.log
 node_modules/
+build/
+*.db
+*.sqlite
+*.sqlite3
+mono_backup_*.json
+mono-auto-backup*.json

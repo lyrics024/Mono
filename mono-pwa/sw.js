@@ -1,5 +1,5 @@
 /* Service Worker — Cache strategy: cache-first for assets, network-first for app shell */
-const CACHE_NAME = 'mono-v5-20260813-5';
+const CACHE_NAME = 'mono-v6-20260818-1';
 
 const ASSETS = [
   '/',
@@ -14,6 +14,7 @@ const ASSETS = [
   '/css/settings.css',
   '/css/crop.css',
   '/css/batch.css',
+  '/assets/textures/smoked-walnut-veneer-bg.webp',
   '/js/store.js',
   '/js/utils.js',
   '/js/router.js',

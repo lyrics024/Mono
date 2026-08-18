@@ -31,6 +31,9 @@ function playOpeningAnimation() {
 
 // Check if this is a cold start (no session flag)
 function isColdStart() {
+  if (new URLSearchParams(window.location.search).get('skipAnim') === '1') {
+    sessionStorage.setItem('mono_anim_played', '1');
+  }
   return !sessionStorage.getItem('mono_anim_played');
 }
 
