@@ -59,7 +59,6 @@ build/Mono.app
 - 浏览器/PWA：数据保存在当前浏览器的 IndexedDB 中。
 - macOS `.app`：页面数据保存在 WebView 对应的本地存储中，同时通过 native bridge 写入自动备份。
 - 手动导入/导出：设置页可以导出或导入 JSON 备份文件。
-- 仓库不包含用户物品数据、IndexedDB 文件、导出的备份 JSON 或构建产物。
 
 ## 项目结构
 
