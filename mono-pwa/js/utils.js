@@ -163,6 +163,36 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+function buildCategorySelectOptions(categories, options = {}) {
+  const {
+    selectedId = '',
+    allowCategory = () => true
+  } = options;
+
+  const tree = buildTree(Array.isArray(categories) ? categories : []);
+  const selectedKey = selectedId == null ? '' : String(selectedId);
+  const html = [];
+
+  const walk = (nodes, depth = 0) => {
+    for (const cat of nodes) {
+      if (allowCategory(cat, depth)) {
+        const prefix = depth > 0 ? `${'·'.repeat(depth)} ` : '';
+        const selected = selectedKey === String(cat.id) ? 'selected' : '';
+        html.push(
+          `<option value="${escapeHtml(cat.id)}" ${selected}>${prefix}${escapeHtml(cat.name)}</option>`
+        );
+      }
+
+      if (cat.children && cat.children.length > 0) {
+        walk(cat.children, depth + 1);
+      }
+    }
+  };
+
+  walk(tree, 0);
+  return html.join('');
+}
+
 // ── Image helpers ─────────────────────────────────────────
 
 function readFileAsDataURL(file) {

@@ -16,9 +16,9 @@ async function renderCategoryTree() {
       <input type="text" id="cat-add-input" placeholder="新分类名称" maxlength="30">
       <select class="parent-select" id="cat-add-parent">
         <option value="">顶级分类</option>
-        ${allCats.filter(c => c.depth < 2 && !c.isDefault).map(c =>
-          `<option value="${escapeHtml(c.id)}">${escapeHtml(c.name)}</option>`
-        ).join('')}
+        ${buildCategorySelectOptions(allCats, {
+          allowCategory: (cat) => !cat.isDefault && cat.depth < 2
+        })}
       </select>
       <button class="text-btn" onclick="addCategory()" style="flex-shrink: 0;">添加</button>
     </div>

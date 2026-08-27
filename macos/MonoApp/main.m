@@ -155,6 +155,19 @@ completionHandler:(void (^)(BOOL result))completionHandler {
   [appMenu addItemWithTitle:@"退出 Mono" action:@selector(terminate:) keyEquivalent:@"q"];
   appMenuItem.submenu = appMenu;
 
+  NSMenuItem *editMenuItem = [[NSMenuItem alloc] initWithTitle:@"" action:nil keyEquivalent:@""];
+  [mainMenu addItem:editMenuItem];
+
+  NSMenu *editMenu = [[NSMenu alloc] initWithTitle:@"编辑"];
+  [editMenu addItemWithTitle:@"撤销" action:@selector(undo:) keyEquivalent:@"z"];
+  [editMenu addItemWithTitle:@"重做" action:@selector(redo:) keyEquivalent:@"Z"];
+  [editMenu addItem:NSMenuItem.separatorItem];
+  [editMenu addItemWithTitle:@"剪切" action:@selector(cut:) keyEquivalent:@"x"];
+  [editMenu addItemWithTitle:@"复制" action:@selector(copy:) keyEquivalent:@"c"];
+  [editMenu addItemWithTitle:@"粘贴" action:@selector(paste:) keyEquivalent:@"v"];
+  [editMenu addItemWithTitle:@"全选" action:@selector(selectAll:) keyEquivalent:@"a"];
+  editMenuItem.submenu = editMenu;
+
   NSApp.mainMenu = mainMenu;
 }
 

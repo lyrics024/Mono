@@ -18,11 +18,6 @@ async function renderItemForm(itemId = null) {
     }
   }
 
-  const categories = await getAll('categories');
-  const catOptions = categories.map(c =>
-    `<option value="${escapeHtml(c.id)}" ${item && item.categoryId === c.id ? 'selected' : ''}>${escapeHtml(c.name)}</option>`
-  ).join('');
-
   const defaultCatId = sessionStorage.getItem('mono_new_item_cat') || '_uncategorized_';
   sessionStorage.removeItem('mono_new_item_cat');
 
@@ -35,6 +30,10 @@ async function renderItemForm(itemId = null) {
   }
 
   const catId = item ? item.categoryId : defaultCatId;
+  const categories = await getAll('categories');
+  const catOptions = buildCategorySelectOptions(categories, {
+    selectedId: catId
+  });
 
   form.innerHTML = `
     <!-- Images -->
